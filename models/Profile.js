@@ -64,15 +64,12 @@ const ProfileSchema = new mongoose.Schema({
         {
           country: {
             type: String,
-            required: true
           },
           city: {
             type: String,
-            required: true
           },
           venue: {
             type: String,
-            required: true
           }
         }
       ],
@@ -88,6 +85,9 @@ const ProfileSchema = new mongoose.Schema({
         required: true
       },
       description: {
+        type: String
+      },
+      coverArt: {
         type: String
       }
     }

@@ -213,8 +213,6 @@ router.delete('/releases/:release_id', auth, async (req, res) => {
 
     const removeIndex = profile.releases.map(item => item.id).indexOf(req.params.release_id);
 
-    console.log(removeIndex);
-
     if(removeIndex < 0) {
       return res.status(400).send('Release does not found');
     }
@@ -230,27 +228,92 @@ router.delete('/releases/:release_id', auth, async (req, res) => {
   }
 });
 
-
-
-// router.delete('/releases/:release_id', auth, async (req, res) => {
-//   try {
-//     const profile = await Profile.findOne({ user: req.user.id });
-
-//     // Get remove index
-//     const removeIndex = profile.releases.map(item => item.id).indexOf(req.params.release_id);
-
-//     profile.releases.splice(removeIndex, 1);
-
-//     await profile.save();
-
-//     res.json(profile);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }
-// });
-
-
 // LEGACY - "edit release" not implemented
+
+
+// @route   PUT api/profile/events
+// @desc    Add release
+// @access  Private
+router.put(
+  '/events', 
+  [ 
+    auth, 
+    [
+      check('title', 'Title is required')
+        .not()
+        .isEmpty(),
+      check('from', 'Start date and time are required')
+        .not()
+        .isEmpty(),
+      check('to', 'End date and time are required')
+        .not()
+        .isEmpty(),
+    ] 
+  ], 
+  async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty) {
+      return res.status(400).json({ errors: errors.array() })
+  }
+
+  const {
+    title,
+    location,
+    promoGroupName,
+    from,
+    to,
+    description,
+    coverArt
+  } = req.body;
+
+  const newEvent = {
+    title,
+    location,
+    promoGroupName,
+    from,
+    to,
+    description,
+    coverArt
+  }
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    profile.events.unshift(newEvent);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/profile/events/:event_id
+// @desc    Delete release
+// @access  Private
+router.delete('/events/:event_id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    const removeIndex = profile.events.map(item => item.id).indexOf(req.params.event_id);
+
+    if(removeIndex < 0) {
+      return res.status(400).send('Event does not found');
+    }
+    
+    profile.events.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// LEGACY - Event location doesn't implemented
 
 module.exports = router;
