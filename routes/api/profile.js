@@ -215,6 +215,10 @@ router.delete('/releases/:release_id', auth, async (req, res) => {
 
     console.log(removeIndex);
 
+    if(removeIndex < 0) {
+      return res.status(400).send('Release does not found');
+    }
+    
     profile.releases.splice(removeIndex, 1);
 
     await profile.save();
