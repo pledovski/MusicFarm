@@ -12,7 +12,8 @@ const ProfileSchema = new mongoose.Schema({
     type: String
   },
   basedAt: {
-    type: String
+    type: String,
+    required: true
   },
   about: {
     bio: String
@@ -91,7 +92,7 @@ const ProfileSchema = new mongoose.Schema({
     youtube: {
       type: String
     },
-    twitter: {
+    soundcloud: {
       type: String
     },
     facebook: {
