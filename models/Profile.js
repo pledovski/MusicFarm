@@ -44,6 +44,13 @@ const ProfileSchema = new mongoose.Schema({
       },
       description: {
         type: String
+      },
+      recordLink: {
+        type: String,
+        // LEGACY - change to TRUE after media server implementation
+      },
+      artwork: {
+        type: String
       }
     }
   ],

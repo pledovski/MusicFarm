@@ -123,4 +123,130 @@ router.get('/user/:user_id', async (req, res) => {
   }
 });
 
+// @route   DELETE api/profile/
+// @desc    Delete user/ profile and posts
+// @access  Private
+router.delete('/', auth, async (req, res) => {
+  try {
+    // LEGACY - remove user posts
+    // Remove profile
+    await Profile.findOneAndRemove({ user: req.user.id });
+    // Remove user
+    await User.findOneAndRemove({ _id: req.user.id });
+
+    res.json({ msg: 'User deleted' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route   PUT api/profile/releases
+// @desc    Add release
+// @access  Private
+router.put(
+  '/releases', 
+  [ 
+    auth, 
+    [
+      check('title', 'Title is required')
+        .not()
+        .isEmpty(),
+      check('label', 'Label is required')
+        .not()
+        .isEmpty(),
+      check('released', 'Release date is required')
+        .not()
+        .isEmpty(),
+    ] 
+  ], 
+  async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty) {
+      return res.status(400).json({ errors: errors.array() })
+  }
+
+  const {
+    title,
+    label,
+    format,
+    country,
+    released,
+    style,
+    description,
+    recordLink,
+    artwork
+  } = req.body;
+
+  const newRelease = {
+    title,
+    label,
+    format,
+    country,
+    released,
+    style,
+    description,
+    recordLink,
+    artwork
+  }
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    profile.releases.unshift(newRelease);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/profile/releases/:release_id
+// @desc    Delete release
+// @access  Private
+router.delete('/releases/:release_id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    const removeIndex = profile.releases.map(item => item.id).indexOf(req.params.release_id);
+
+    console.log(removeIndex);
+
+    profile.releases.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+
+// router.delete('/releases/:release_id', auth, async (req, res) => {
+//   try {
+//     const profile = await Profile.findOne({ user: req.user.id });
+
+//     // Get remove index
+//     const removeIndex = profile.releases.map(item => item.id).indexOf(req.params.release_id);
+
+//     profile.releases.splice(removeIndex, 1);
+
+//     await profile.save();
+
+//     res.json(profile);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// });
+
+
+// LEGACY - "edit release" not implemented
+
 module.exports = router;
