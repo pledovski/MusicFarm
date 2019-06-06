@@ -171,11 +171,13 @@ router.put(
     label,
     format,
     country,
-    released,
+    releaseDate,
+    uploadDate,
     style,
     description,
     recordLink,
-    artwork
+    artwork,
+    records
   } = req.body;
 
   const newRelease = {
@@ -183,11 +185,13 @@ router.put(
     label,
     format,
     country,
-    released,
+    releaseDate,
+    uploadDate,
     style,
     description,
     recordLink,
-    artwork
+    artwork,
+    records
   }
 
   try {
@@ -235,11 +239,13 @@ router.put(
     label,
     format,
     country,
-    released,
+    releaseDate,
+    uploadDate,
     style,
     description,
     recordLink,
-    artwork
+    artwork,
+    records
   } = req.body;
 
   const updatedRelease = {
@@ -247,11 +253,13 @@ router.put(
     label,
     format,
     country,
-    released,
+    releaseDate,
+    uploadDate,
     style,
     description,
     recordLink,
-    artwork
+    artwork,
+    records
   }
 
   try {

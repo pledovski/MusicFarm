@@ -35,9 +35,13 @@ const ProfileSchema = new mongoose.Schema({
       country: {
         type: String
       },
-      released: {
+      releaseDate: {
         type: Date,
         required: true
+      },
+      uploadDate: {
+        type: Date,
+        default: Date.now
       },
       style: {
         type: String
@@ -47,11 +51,25 @@ const ProfileSchema = new mongoose.Schema({
       },
       recordLink: {
         type: String,
-        // LEGACY - change to TRUE after media server implementation
+        // LEGACY - change to required: true after a media server implementation
       },
       artwork: {
         type: String
-      }
+      },
+      records: [
+        {
+          artist: {
+            type: String,
+            required: true
+          },
+          title: {
+            type: String,
+            required: true
+          },
+          lenght: String,
+          // LEGACY - change to required: true after a media server implementation
+        }
+      ]
     }
   ],
   events: [
