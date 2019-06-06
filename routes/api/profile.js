@@ -204,6 +204,76 @@ router.put(
   }
 });
 
+
+// @route   PUT api/profile/releases/:release_id
+// @desc    Update release
+// @access  Private
+router.put(
+  '/releases/:release_id', 
+  [ 
+    auth, 
+    [
+      check('title', 'Title is required')
+        .not()
+        .isEmpty(),
+      check('label', 'Label is required')
+        .not()
+        .isEmpty(),
+      check('released', 'Release date is required')
+        .not()
+        .isEmpty(),
+    ] 
+  ], 
+  async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty) {
+      return res.status(400).json({ errors: errors.array() })
+  }
+
+  const {
+    title,
+    label,
+    format,
+    country,
+    released,
+    style,
+    description,
+    recordLink,
+    artwork
+  } = req.body;
+
+  const updatedRelease = {
+    title,
+    label,
+    format,
+    country,
+    released,
+    style,
+    description,
+    recordLink,
+    artwork
+  }
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    const updateIndex = profile.releases.map(item => item.id).indexOf(req.params.release_id);
+
+    if(updateIndex < 0) {
+      return res.status(400).send('Release does not found');
+    }
+    
+    profile.releases.splice(updateIndex, 1, updatedRelease);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   DELETE api/profile/releases/:release_id
 // @desc    Delete release
 // @access  Private
@@ -228,11 +298,8 @@ router.delete('/releases/:release_id', auth, async (req, res) => {
   }
 });
 
-// LEGACY - "edit release" not implemented
-
-
 // @route   PUT api/profile/events
-// @desc    Add release
+// @desc    Create event
 // @access  Private
 router.put(
   '/events', 
@@ -289,6 +356,73 @@ router.put(
     res.status(500).send('Server Error');
   }
 });
+
+
+// @route   PUT api/profile/events/:event_id
+// @desc    Update event
+// @access  Private
+router.put(
+  '/events/:event_id', 
+  [ 
+    auth, 
+    [
+      check('title', 'Title is required')
+        .not()
+        .isEmpty(),
+      check('from', 'Start date and time are required')
+        .not()
+        .isEmpty(),
+      check('to', 'End date and time are required')
+        .not()
+        .isEmpty(),
+    ] 
+  ], 
+  async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty) {
+      return res.status(400).json({ errors: errors.array() })
+  }
+
+  const {
+    title,
+    location,
+    promoGroupName,
+    from,
+    to,
+    description,
+    coverArt
+  } = req.body;
+
+  const updatedEvent = {
+    title,
+    location,
+    promoGroupName,
+    from,
+    to,
+    description,
+    coverArt
+  }
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    const updateIndex = profile.events.map(item => item.id).indexOf(req.params.event_id);
+
+    if(updateIndex < 0) {
+      return res.status(400).send('Event does not found');
+    }
+    
+    profile.events.splice(updateIndex, 1, updatedEvent);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 
 // @route   DELETE api/profile/events/:event_id
 // @desc    Delete release
