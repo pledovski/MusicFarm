@@ -448,6 +448,4 @@ router.delete('/events/:event_id', auth, async (req, res) => {
   }
 });
 
-// LEGACY - Event location doesn't implemented
-
 module.exports = router;
