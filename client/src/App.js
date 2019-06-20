@@ -8,7 +8,7 @@ import './App.css';
 
 const App = () => 
     <Router>
-      <Fragment className="App">
+      <Fragment>
         <Navbar />
         <Route exact path="/" component={ Landing } />
         <section className="container">
@@ -17,7 +17,7 @@ const App = () =>
             <Route exact path="/login" component={ Login } />
           </Switch>
         </section>
-    </Fragment>
+      </Fragment>
     </Router>
     
 

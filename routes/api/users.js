@@ -12,9 +12,6 @@ const User = require('../../models/User');
 // @desc    Register user
 // @access  Public
 router.post('/', [
-  check('name', 'Name is required')
-    .not()
-    .isEmpty(),
   check('email', 'Please include a valid email')
     .isEmail(),
   check('password', 'Please enter a password with 8 or more characters')
@@ -26,7 +23,7 @@ async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
 
   try {
   // See if a user exists
@@ -43,7 +40,6 @@ async (req, res) => {
   });
 
   user = new User({
-    name,
     email,
     avatar,
     password
