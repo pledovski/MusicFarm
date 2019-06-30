@@ -21,8 +21,8 @@ if(localStorage.token) {
 
 const App = () => {
   useEffect(() => {
-    store.dispatch(loadUser);
-  }, []);
+    store.dispatch(loadUser());
+  },[]);
 
   return (
     <Provider store={store}>
@@ -42,7 +42,7 @@ const App = () => {
       </Router>
     </Provider>
   )
-}
+};
     
     
 
