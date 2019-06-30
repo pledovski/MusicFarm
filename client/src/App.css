@@ -581,7 +581,13 @@ button {
 /* Dashboard */
 
 .dashboard {
+  display: flex;
   position: relative;
   background: url('./img/berch.jpg') no-repeat center center/cover;
   height: 100vh;
+}
+
+.dashboard h1 {
+  color: red;
+  align-items: center
 }
