@@ -5,7 +5,7 @@ import React from 'react';
 const Dashboard = () => {
   return (
     <div>
-      <h1>I am protected and sleeping!</h1>
+      <h1>The service is under construction!</h1>
       <div className="dashboard"></div>
     </div>
   )
