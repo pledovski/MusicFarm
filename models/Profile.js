@@ -5,6 +5,12 @@ const ProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
+  realName: {
+    type: String
+  },
+  alias: {
+    type: String
+  },
   dob: {
     type: Date
   },

@@ -11,7 +11,7 @@ const User = require('../../models/User');
 // @access  Private
 router.get('/me', auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar']);
+    const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['avatar']);
 
     if(!profile) {
       return res.status(400).json({ msg: 'There is no profile for this user' });
@@ -38,6 +38,8 @@ router.post('/', [ auth, [
   }
 // LEGACY = NO RELEASES
   const {
+    realName,
+    alias,
     dob,
     bornAt,
     basedAt,
@@ -52,6 +54,8 @@ router.post('/', [ auth, [
   // Build profile object
   const profileFields = {};
   profileFields.user = req.user.id;
+  if(realName) profileFields.realName = realName;
+  if(alias) profileFields.alias = alias;
   if(dob) profileFields.dob = dob;
   if(bornAt) profileFields.bornAt = bornAt;
   if(basedAt) profileFields.basedAt = basedAt;
