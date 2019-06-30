@@ -8,7 +8,7 @@ const Landing = () => {
         <div className="landing-inner">
           <h1 className="x-large">Music Farm</h1>
           <p className="lead">
-            Share and sell your records as easy as never before!
+            Share and sell your music as easy as never before!
           </p>
           <div className="buttons">
             <Link to="/register" className="btn btn-primary">Sign Up</Link>

@@ -130,7 +130,7 @@ img {
   display: inline-block;
   background: var(--light-color);
   color: #333;
-  padding: 0.4rem 1.3rem;
+  padding: 0.4rem 4rem;
   font-size: 1rem;
   border: none;
   cursor: pointer;
@@ -314,6 +314,7 @@ button {
 
 .navbar ul {
   display: flex;
+  align-items: center;
 }
 
 .navbar a {

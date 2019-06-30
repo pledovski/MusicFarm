@@ -37,7 +37,7 @@ const Register = ({ setAlert, register }) => {
             name="email" 
             value={email} 
             onChange={e => onChange(e)}
-            // required
+            required
           />
         </div>
         <div className="form-group">
@@ -47,8 +47,8 @@ const Register = ({ setAlert, register }) => {
             name="password"
             value={password} 
             onChange={e => onChange(e)}
-            // minLength="6"
-            // required
+            minLength="6"
+            required
           />
         </div>
         <div className="form-group">
@@ -58,8 +58,8 @@ const Register = ({ setAlert, register }) => {
             name="password2"
             value={password2} 
             onChange={e => onChange(e)}
-            // minLength="6"
-            // required
+            minLength="6"
+            required
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Register" />
@@ -76,4 +76,7 @@ Register.propTypes = {
   register: PropTypes.func.isRequired,
 }
 
-export default connect(null, { setAlert, register })(Register);
+export default connect(
+  null,
+  { setAlert, register }
+  )(Register);
