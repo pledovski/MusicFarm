@@ -24,8 +24,13 @@ const ProfileSchema = new mongoose.Schema({
   about: {
     bio: String
   },
-  releases: [
+  release: [
     {
+      // LEGACY - required: true doesnt work
+      artist: {
+        type: String,
+        required: false
+      },
       title: {
         type: String,
         required: true

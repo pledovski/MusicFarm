@@ -5,6 +5,7 @@ const { check, validationResult } = require("express-validator/check");
 
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const Post = require("../../models/Post");
 
 // @route   GET api/profile/me
 // @desc    Get current users profile
@@ -45,7 +46,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    // LEGACY = NO RELEASES
+    // LEGACY = NO release
     const {
       realName,
       alias,
@@ -143,7 +144,8 @@ router.get("/user/:user_id", async (req, res) => {
 // @access  Private
 router.delete("/", auth, async (req, res) => {
   try {
-    // LEGACY - remove user posts
+    // Remove user posts
+    await Post.deleteMany({ user: req.user.id })
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove user
@@ -156,14 +158,17 @@ router.delete("/", auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/profile/releases
+// @route   PUT api/profile/release
 // @desc    Add release
 // @access  Private
 router.put(
-  "/releases",
+  "/release",
   [
     auth,
     [
+      check("artist", "Artist name is required")
+        .not()
+        .isEmpty(),
       check("title", "Title is required")
         .not()
         .isEmpty(),
@@ -179,6 +184,7 @@ router.put(
     }
 
     const {
+      artist,
       title,
       label,
       format,
@@ -193,6 +199,7 @@ router.put(
     } = req.body;
 
     const newRelease = {
+      artist,
       title,
       label,
       format,
@@ -209,7 +216,7 @@ router.put(
     try {
       const profile = await Profile.findOne({ user: req.user.id });
 
-      profile.releases.unshift(newRelease);
+      profile.release.unshift(newRelease);
 
       await profile.save();
 
@@ -221,14 +228,17 @@ router.put(
   }
 );
 
-// @route   PUT api/profile/releases/:release_id
+// @route   PUT api/profile/release/:release_id
 // @desc    Update release
 // @access  Private
 router.put(
-  "/releases/:release_id",
+  "/release/:release_id",
   [
     auth,
     [
+      check("artist", "Artist is required")
+        .not()
+        .isEmpty(),
       check("title", "Title is required")
         .not()
         .isEmpty(),
@@ -244,6 +254,7 @@ router.put(
     }
 
     const {
+      artist,
       title,
       label,
       format,
@@ -258,6 +269,7 @@ router.put(
     } = req.body;
 
     const updatedRelease = {
+      artist,
       title,
       label,
       format,
@@ -274,7 +286,7 @@ router.put(
     try {
       const profile = await Profile.findOne({ user: req.user.id });
 
-      const updateIndex = profile.releases
+      const updateIndex = profile.release
         .map(item => item.id)
         .indexOf(req.params.release_id);
 
@@ -282,7 +294,7 @@ router.put(
         return res.status(400).send("Release does not found");
       }
 
-      profile.releases.splice(updateIndex, 1, updatedRelease);
+      profile.release.splice(updateIndex, 1, updatedRelease);
 
       await profile.save();
 
@@ -294,14 +306,14 @@ router.put(
   }
 );
 
-// @route   DELETE api/profile/releases/:release_id
+// @route   DELETE api/profile/release/:release_id
 // @desc    Delete release
 // @access  Private
-router.delete("/releases/:release_id", auth, async (req, res) => {
+router.delete("/release/:release_id", auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
 
-    const removeIndex = profile.releases
+    const removeIndex = profile.release
       .map(item => item.id)
       .indexOf(req.params.release_id);
 
@@ -309,7 +321,7 @@ router.delete("/releases/:release_id", auth, async (req, res) => {
       return res.status(400).send("Release does not found");
     }
 
-    profile.releases.splice(removeIndex, 1);
+    profile.release.splice(removeIndex, 1);
 
     await profile.save();
 

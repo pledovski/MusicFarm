@@ -6,6 +6,7 @@ import { addRelease } from "../../actions/profile";
 
 const AddRelease = ({ addRelease, history }) => {
   const [formData, setFormData] = useState({
+    artist: '',
     title: '',
     label: '',
     format: '',
@@ -19,6 +20,7 @@ const AddRelease = ({ addRelease, history }) => {
   });
 
   const {
+    artist,
     title,
     label,
     format,
@@ -44,6 +46,15 @@ const AddRelease = ({ addRelease, history }) => {
         e.preventDefault();
         addRelease(formData, history)
       }}>
+        <div className="form-group">Artist:
+          <input
+            type="text"
+            placeholder="Artist"
+            name="artist"
+            value={artist}
+            onChange={e => onChange(e)}
+          />
+        </div>
         <div className="form-group">Title:
           <input
             type="text"
