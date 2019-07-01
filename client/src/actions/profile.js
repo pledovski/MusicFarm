@@ -1,59 +1,126 @@
-import axios from 'axios';
-import { setAlert } from './alert';
+import axios from "axios";
+import { setAlert } from "./alert";
 
-import {
-  GET_PROFILE,
-  PROFILE_ERROR
-} from './types';
+import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "./types";
 
 // Get current profile
 export const getCurrentProfile = () => async dispatch => {
   try {
-    const res = await axios.get('/api/profile/me');
+    const res = await axios.get("/api/profile/me");
 
     dispatch({
       type: GET_PROFILE,
       payload: res.data
-    })
+    });
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status}
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
 
 // Create or update profile
-export const createProfile = (formData, history, edit = false) => async dispatch => {
+export const createProfile = (
+  formData,
+  history,
+  edit = false
+) => async dispatch => {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
-    }
+    };
 
-    const res = await axios.post('/api/profile', formData, config);
+    const res = await axios.post("/api/profile", formData, config);
 
     dispatch({
       type: GET_PROFILE,
       payload: res.data
     });
 
-    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
+    dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "success"));
 
-    if(!edit) {
-      history.push('./dashboard');
+    if (!edit) {
+      history.push("./dashboard");
     }
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
 
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status}
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Add release
+export const addRelease = (formData, history) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    const res = await axios.put("/api/profile/releases", formData, config);
+
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
+
+    dispatch(setAlert("Release Added", "success"));
+
+    history.push("./dashboard");
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Add event
+export const addEvent = (formData, history) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    const res = await axios.put("/api/profile/events", formData, config);
+
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
+
+    dispatch(setAlert("Event Added", "success"));
+
+    history.push("./dashboard");
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };

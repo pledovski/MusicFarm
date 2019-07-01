@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import DashboardActions from "./DashboardActions";
 import { getCurrentProfile } from "../../actions/profile";
 
 const Dashboard = ({
@@ -14,28 +15,28 @@ const Dashboard = ({
     getCurrentProfile();
   }, [getCurrentProfile]);
 
-  var dashStyle = {
-    color: "red",
-    fontSize: 60,
-    display: "flex",
-    justifyContent: "space-around"
-  };
+  // var dashStyle = {
+  //   color: "red",
+  //   fontSize: 60,
+  //   display: "flex",
+  //   justifyContent: "space-around"
+  // };
 
   return loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
-      <div>
-        <h1 style={dashStyle}>
+        {/* <h1 style={dashStyle}>
           <u>The service is under construction!</u>
-        </h1>
-        <div className="dashboard" />
+        </h1> */}
         <h1 className="large text-primary">My Profile</h1>
         <p className="lead">
-          <i className=" fas fa-user" /> Welcome, {user.name}
+          <i className=" fas fa-user" /> Welcome {profile && profile.realName}
         </p>
         {profile !== null ? (
-          <Fragment>has</Fragment>
+          <Fragment>
+            <DashboardActions />
+          </Fragment>
         ) : (
           <Fragment>
             <p>You have not setup a profile, please add some info.</p>
@@ -44,7 +45,6 @@ const Dashboard = ({
             </Link>
           </Fragment>
         )}
-      </div>
     </Fragment>
   );
 };

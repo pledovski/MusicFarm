@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: "user"
   },
   realName: {
     type: String
@@ -36,14 +36,14 @@ const ProfileSchema = new mongoose.Schema({
       },
       format: {
         type: String,
-        required: true
+        required: false
       },
       country: {
         type: String
       },
       releaseDate: {
         type: Date,
-        required: true
+        required: false
       },
       uploadDate: {
         type: Date,
@@ -56,7 +56,7 @@ const ProfileSchema = new mongoose.Schema({
         type: String
       },
       recordLink: {
-        type: String,
+        type: String
         // LEGACY - change to required: true after a media server implementation
       },
       artwork: {
@@ -66,13 +66,13 @@ const ProfileSchema = new mongoose.Schema({
         {
           artist: {
             type: String,
-            required: true
+            required: false
           },
           title: {
             type: String,
-            required: true
+            required: false
           },
-          lenght: String,
+          lenght: String
           // LEGACY - change to required: true after a media server implementation
         }
       ]
@@ -87,13 +87,13 @@ const ProfileSchema = new mongoose.Schema({
       location: [
         {
           country: {
-            type: String,
+            type: String
           },
           city: {
-            type: String,
+            type: String
           },
           venue: {
-            type: String,
+            type: String
           }
         }
       ],
@@ -132,7 +132,7 @@ const ProfileSchema = new mongoose.Schema({
     instagram: {
       type: String
     }
-  },
+  }
 });
 
-module.exports = Profile = mongoose.model('profile', ProfileSchema);
+module.exports = Profile = mongoose.model("profile", ProfileSchema);
