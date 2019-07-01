@@ -28,7 +28,7 @@ router.get('/me', auth, async (req, res) => {
 // @desc    Create or update user profile
 // @access  Private
 router.post('/', [ auth, [
-  check('basedAt', 'Please neter the country you are currently based at.')
+  check('basedAt', 'Please enter the country you are currently based at.')
     .not()
     .isEmpty()
 ] ], async (req, res) => {
