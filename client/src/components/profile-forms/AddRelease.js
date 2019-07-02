@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addRelease } from "../../actions/profile";
@@ -165,4 +165,4 @@ AddRelease.propTypes = {
 export default connect(
   null,
   { addRelease }
-)(AddRelease);
+)(withRouter(AddRelease));

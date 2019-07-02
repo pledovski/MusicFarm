@@ -44,7 +44,7 @@ const EditProfile = ({
       facebook: loading || !profile.links ? "" : profile.links.facebook,
       instagram: loading || !profile.links ? "" : profile.links.instagram
     });
-  }, [loading]);
+  }, [loading, getCurrentProfile]);
 
   const {
     realName,
