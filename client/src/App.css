@@ -177,7 +177,7 @@ img {
 .badge-dark,
 .alert-dark {
   background: var(--dark-color);
-  color: #fff;
+  color: var(--primary-color);
 }
 
 .btn-danger,
