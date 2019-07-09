@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import ProfileTop from './ProfileTop'
-import ProfileAbout from './ProfileAbout'
+import ProfileTop from "./ProfileTop";
+import ProfileAbout from "./ProfileAbout";
+import ProfileReleases from "./ProfileReleases";
 import { getProfileById } from "../../actions/profile";
 
 const Profile = ({
@@ -30,13 +31,25 @@ const Profile = ({
             auth.loading === false &&
             auth.user._id === profile.user._id && (
               <Link to="/edit-profile" className="btn btn-dark">
-                <i className="fas fa-user-edit"></i> {' '}Edit Profile
+                <i className="fas fa-user-edit" /> Edit Profile
               </Link>
             )}
-            <div className="profile-grid my-1">
-              <ProfileTop profile={profile}/>
-              <ProfileAbout profile={profile}/>
+          <div className="profile-grid my-1">
+            <ProfileTop profile={profile} />
+            <ProfileAbout profile={profile} />
+            <div className="profile-exp bg-white p-2">
+              <h2 className="text-primary">Releases</h2>
+              {profile.release.length > 0 ? (
+                <Fragment>
+                  {profile.release.map(release => (
+                    <ProfileReleases key={release._id} release={release} />
+                  ))}
+                </Fragment>
+              ) : (
+                <h4>No releases</h4>
+              )}
             </div>
+          </div>
         </Fragment>
       )}
     </Fragment>
