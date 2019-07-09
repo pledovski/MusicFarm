@@ -11,6 +11,7 @@ import EditProfile from "./components/profile-forms/EditProfile";
 import AddRelease from "./components/profile-forms/AddRelease";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
+import Posts from "./components/posts/Posts";
 import PrivateRoute from "./components/routing/PrivateRoute";
 //Redux
 import { Provider } from "react-redux";
@@ -42,6 +43,7 @@ const App = () => {
               <Route exact path="/login" component={Login} />
               <Route exact path="/profiles" component={Profiles} />
               <Route exact path="/profile/:id" component={Profile} />
+              <Route exact path="/posts" component={Posts} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute
                 exact
@@ -53,11 +55,7 @@ const App = () => {
                 path="/edit-profile"
                 component={EditProfile}
               />
-              <PrivateRoute
-                exact
-                path="/add-release"
-                component={AddRelease}
-              />
+              <PrivateRoute exact path="/add-release" component={AddRelease} />
             </Switch>
           </section>
         </Fragment>
