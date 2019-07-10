@@ -47,7 +47,7 @@ const ProfileReleases = ({
 
 
 ProfileReleases.propTypes = {
-  release: PropTypes.array.isRequired
+  release: PropTypes.object.isRequired
 };
 
 export default ProfileReleases;
