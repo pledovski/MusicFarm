@@ -9,18 +9,21 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
   useEffect(() => {
     getPosts();
   }, [getPosts]);
-  return loading ? <Spinner /> : <Fragment>
-    <h1 className="large text-primary">News Feed</h1>
-    <p className="lead">
-      <i className="fas fa-user"></i>
-     {' '} Allo mallo
-    </p>
-    <div className="posts">
-      {posts.map(post => (
-        <PostItem key={post._id} post={post} />
-      ))}
-    </div>
-  </Fragment>;
+  return loading ? (
+    <Spinner />
+  ) : (
+    <Fragment>
+      <h1 className="large text-primary">News Feed</h1>
+      <p className="lead">
+        <i className="fas fa-user" /> Allo mallo
+      </p>
+      <div className="posts">
+        {posts.map(post => (
+          <PostItem key={post._id} post={post} />
+        ))}
+      </div>
+    </Fragment>
+  );
 };
 
 Posts.propTypes = {

@@ -16,8 +16,8 @@ const ProfileItem = ({
   return <div className="profile bg-light">
     <img src={avatar} alt="" className="round-img"/>
     <div>
-      <h2>{realName}</h2>
-      <p>{alias} from {basedAt}</p>
+      <h2>{alias}</h2>
+      <p>{realName} from {basedAt}</p>
       <p>Born at {bornAt} in {dob}</p>
       <p>{about}</p>
       <Link to={`/profile/${_id}`} className="btn btn-primary">
