@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import PostItem from "./PostItem";
 import { getPosts } from "../../actions/post";
+import PostForm from "./PostForm";
 
-const Posts = ({ getPosts, post: { posts, loading } }) => {
+const Posts = ({ getPosts, auth, post: { posts, loading } }) => {
   useEffect(() => {
     getPosts();
   }, [getPosts]);
@@ -15,8 +16,9 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
     <Fragment>
       <h1 className="large text-primary">News Feed</h1>
       <p className="lead">
-        <i className="fas fa-user" /> Allo mallo
+        <i className="fas fa-user" /> Welcome on board
       </p>
+      {!auth.loading && auth.isAuthenticated && <PostForm />}
       <div className="posts">
         {posts.map(post => (
           <PostItem key={post._id} post={post} />
@@ -32,7 +34,8 @@ Posts.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  post: state.post
+  post: state.post,
+  auth: state.auth
 });
 
 export default connect(

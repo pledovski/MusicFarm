@@ -15,21 +15,29 @@ const PostItem = ({
   return (
     <div className="post bg-white p-1 my-1">
       <div>
-        <a href="profile.html">
+        <Link to={`/profile/${user}`}>
           <img className="round-img" src={avatar} alt="" />
           <h4>{realName}</h4>
-        </a>
+        </Link>
       </div>
       <div>
-        <p className="my-1">{text}</p>
         <p className="post-date">
           Posted on <Moment format="YYYY/MM/DD">{date}</Moment>
         </p>
-        <button onClick={e => addLike(_id)} type="button" className="btn btn-light">
+        <p className="my-1">{text}</p>
+        <button
+          onClick={e => addLike(_id)}
+          type="button"
+          className="btn btn-light"
+        >
           <i className="fas fa-thumbs-up" />
           {likes.length > 0 && <span> {likes.length}</span>}
         </button>
-        <button onClick={e => removeLike(_id)} type="button" className="btn btn-light">
+        <button
+          onClick={e => removeLike(_id)}
+          type="button"
+          className="btn btn-light"
+        >
           <i className="fas fa-thumbs-down" />
         </button>
         <Link to={`/posts/:id`} className="btn btn-primary">
@@ -39,7 +47,11 @@ const PostItem = ({
           )}
         </Link>
         {!auth.loading && auth.isAuthenticated && user === auth.user._id && (
-          <button onClick={e => deletePost(_id)} type="button" className="btn btn-danger">
+          <button
+            onClick={e => deletePost(_id)}
+            type="button"
+            className="btn btn-danger"
+          >
             <i className="fas fa-times" />
           </button>
         )}
