@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Moment from 'react-moment'
 
 const ProfileItem = ({
   profile: {
@@ -18,7 +19,7 @@ const ProfileItem = ({
     <div>
       <h2>{alias}</h2>
       <p>{realName} from {basedAt}</p>
-      <p>Born at {bornAt} in {dob}</p>
+      <p>Born at {bornAt} in <Moment format='DD/MM/YYYY'>{dob}</Moment></p>
       <p>{about}</p>
       <Link to={`/profile/${_id}`} className="btn btn-primary">
         View Artist

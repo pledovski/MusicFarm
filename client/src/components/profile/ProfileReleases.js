@@ -18,12 +18,12 @@ const ProfileReleases = ({
   <div>
     <h3>{artist}</h3>
     <p>
-      Relased:
-      <Moment format="YYYY/MM/DD">{releaseDate}</Moment>
+      Relased:{' '}
+      <Moment format="DD/MM/YYYY">{releaseDate}</Moment>
     </p>
     <p>
-      Uploaded:
-      <Moment format="YYYY/MM/DD">{uploadDate}</Moment>
+      Uploaded:{' '}
+      <Moment format="DD/MM/YYYY">{uploadDate}</Moment>
     </p>
     <p>
       <strong>{title}</strong>
