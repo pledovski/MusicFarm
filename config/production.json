@@ -1,4 +1,4 @@
 {
   "mongoURI": "mongodb+srv://pledovski:veryStrongPassword123123123@musicfarm-sgkoi.mongodb.net/test?retryWrites=true&w=majority",
-  "jwtSecret": "verySecretToken"
+  "jwtSecret": "VerySecretJWTToken"
 }
