@@ -12,6 +12,8 @@ import {
 
 // Get current profile
 export const getCurrentProfile = () => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
+
   try {
     const res = await axios.get("/api/profile/me");
 
@@ -48,6 +50,7 @@ export const getProfiles = () => async dispatch => {
 
 // Get profile by ID
 export const getProfileById = userId => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
 
   try {
     const res = await axios.get(`/api/profile/user/${userId}`);
@@ -73,27 +76,29 @@ export const createProfile = (
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     };
 
-    const res = await axios.post("/api/profile", formData, config);
+    dispatch({ type: CLEAR_PROFILE });
+
+    const res = await axios.post('/api/profile', formData, config);
 
     dispatch({
       type: GET_PROFILE,
       payload: res.data
     });
 
-    dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "success"));
+    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
     if (!edit) {
-      history.push("./dashboard");
+      history.push('/dashboard');
     }
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -105,6 +110,8 @@ export const createProfile = (
 
 // Add release
 export const addRelease = (formData, history) => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
+
   try {
     const config = {
       headers: {
@@ -138,6 +145,8 @@ export const addRelease = (formData, history) => async dispatch => {
 
 // Add event
 export const addEvent = (formData, history) => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
+
   try {
     const config = {
       headers: {
@@ -171,6 +180,8 @@ export const addEvent = (formData, history) => async dispatch => {
 
 // Delete release
 export const deleteRelease = id => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
+  
   try {
     const res = await axios.delete(`api/profile/release/${id}`);
 
