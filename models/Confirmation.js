@@ -14,11 +14,8 @@ const TokenSchema = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
-    expires: 43200
+    expireAfterSeconds: 10
   }
 });
 
-module.exports = Verification = mongoose.model(
-  "verification",
-  TokenSchema
-);
+module.exports = Confirmation = mongoose.model("confirmation", TokenSchema);

@@ -58,11 +58,11 @@ router.post(
           .json({ errors: [{ msg: "Invalid credentials" }] });
       }
 
-      // Make sure the user has been verified
-      if (!user.isVerified)
+      // Make sure the user has been confirmed
+      if (!user.isConfirmed)
         return res
           .status(401)
-          .json({ errors: [{ msg: "Your account has not been verified." }] });
+          .json({ errors: [{ msg: "Your account has not been confirmed. Please check your email or try to resend a confirmation link" }] });
 
       // Return jsonwebtoken
       const payload = {
