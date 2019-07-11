@@ -46,7 +46,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    // LEGACY = NO release
+    // LEGACY = NO releases
     const {
       realName,
       alias,
