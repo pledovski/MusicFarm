@@ -31,7 +31,6 @@ export const getCurrentProfile = () => async dispatch => {
 
 // Get all profiles
 export const getProfiles = () => async dispatch => {
-  dispatch({ type: CLEAR_PROFILE });
 
   try {
     const res = await axios.get(`/api/profile/`);
@@ -73,32 +72,32 @@ export const createProfile = (
   history,
   edit = false
 ) => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
+
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     };
 
-    dispatch({ type: CLEAR_PROFILE });
-
-    const res = await axios.post('/api/profile', formData, config);
+    const res = await axios.post("/api/profile", formData, config);
 
     dispatch({
       type: GET_PROFILE,
       payload: res.data
     });
 
-    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
+    dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "success"));
 
     if (!edit) {
-      history.push('/dashboard');
+      history.push("/dashboard");
     }
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
 
     dispatch({
@@ -181,7 +180,7 @@ export const addEvent = (formData, history) => async dispatch => {
 // Delete release
 export const deleteRelease = id => async dispatch => {
   dispatch({ type: CLEAR_PROFILE });
-  
+
   try {
     const res = await axios.delete(`api/profile/release/${id}`);
 

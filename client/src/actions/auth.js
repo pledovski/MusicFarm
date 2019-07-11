@@ -16,7 +16,6 @@ import setAuthToken from '../utils/setAuthToken'
 
 // Load user
 export const loadUser = () => async dispatch => {
-  // dispatch({ type: CLEAR_PROFILE });
 
   if(localStorage.token) {
     setAuthToken(localStorage.token);
@@ -39,6 +38,7 @@ export const loadUser = () => async dispatch => {
 
 // Register user
 export const register = ({ email, password }) => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
   
   const config = {
     headers: {
@@ -47,8 +47,6 @@ export const register = ({ email, password }) => async dispatch => {
   }
 
   const body = JSON.stringify({ email, password });
-
-  dispatch({ type: CLEAR_PROFILE });
 
   try {
     const res = await axios.post('/api/users', body, config);
