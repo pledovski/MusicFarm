@@ -3,7 +3,7 @@ const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const TokenGenerator = require('uuid-token-generator');
+const TokenGenerator = require("uuid-token-generator");
 const nodemailer = require("nodemailer");
 const config = require("config");
 const { check, validationResult } = require("express-validator/check");
@@ -61,7 +61,7 @@ router.post(
 
       const tokgen = new TokenGenerator(256, TokenGenerator.BASE62);
 
-      const verifToken = await tokgen.generate()
+      const verifToken = await tokgen.generate();
 
       // Create a verification token for this user
       verification = new Verification({
@@ -73,7 +73,7 @@ router.post(
       // Save the verification token
       await verification.save(err => {
         if (err) {
-          return res.status(500).send({ msg: err.message });
+          return res.status(500).json({ errors: [{ msg: err.message }] });
         }
 
         // Send the email
@@ -97,13 +97,15 @@ router.post(
         };
         transporter.sendMail(mailOptions, err => {
           if (err) {
-            return res.status(500).send({ msg: err.message });
+            return res.status(500).json({ errors: [{ msg: err.message }] });
           }
-          res
-            .status(200)
-            .json({
-              msg: "A verification email has been sent to " + user.email
-            });
+          res.status(200).json({
+            alert: [
+              {
+                msg: "A verification email has been sent to " + user.email
+              }
+            ]
+          });
         });
       });
 
