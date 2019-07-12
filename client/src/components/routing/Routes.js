@@ -1,5 +1,6 @@
 import React from "react";
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch } from "react-router-dom";
+import Confirmation from "../auth/Confirmation";
 import Register from "../auth/Register";
 import Login from "../auth/Login";
 import Alert from "../layout/Alert";
@@ -19,6 +20,7 @@ const Routes = () => {
     <section className="container">
       <Alert />
       <Switch>
+        <Route exact path="/confirmation/" component={Confirmation} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/profiles" component={Profiles} />
@@ -29,7 +31,7 @@ const Routes = () => {
         <PrivateRoute exact path="/create-profile" component={CreateProfile} />
         <PrivateRoute exact path="/edit-profile" component={EditProfile} />
         <PrivateRoute exact path="/add-release" component={AddRelease} />
-        <Route component={NotFound} />
+        {/* <Route component={NotFound} /> */}
       </Switch>
     </section>
   );

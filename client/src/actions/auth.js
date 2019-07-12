@@ -92,13 +92,36 @@ export const resend = ({ email }) => async dispatch => {
     );
   } catch (err) {
     const errors = err.response.data.errors;
-
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
   }
 
   dispatch({ type: REGISTER_UNCONFIRMED });
+};
+
+// Get confirmation token
+export const getConfirmationToken = token => async dispatch => {
+  try {
+    const res = await axios.get(`/api/users/confirmation/${token}`);
+    console.log(res);
+
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res.data
+    });
+    dispatch(
+      setAlert("Congrattulations! Account successfully confirmed", "success")
+    );
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
+  dispatch({
+    type: REGISTER_FAIL
+  });
 };
 
 // Login user

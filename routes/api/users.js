@@ -91,7 +91,7 @@ router.post(
             `Hello ${user.email}` +
             "Please confirm account creation by clicking the link: \nhttp://" +
             req.headers.host +
-            "/api/users/confirmation/" +
+            "/confirmation/" +
             confirmation.token
         };
         transporter.sendMail(mailOptions, err => {
@@ -137,7 +137,7 @@ router.get("/:token", async (req, res) => {
     });
 
   // If a token found, find a matching user
-  let user = await User.findOne({ _id: token.user });
+  let user = await User.findOne({ _id: token.user }).select("-password");
 
   if (!user)
     return res
@@ -160,12 +160,12 @@ router.get("/:token", async (req, res) => {
         ]
       });
     }
-    res.status(200).json("Your account has been confirmed. Please log in.");
+    res.status(200).json({ user });
   });
 });
 
-// @route   GET api/users/resend/
-// @desc    Confirm user email
+// @route   POST api/users/confirmation/resend/
+// @desc    Resend confirmation email
 // @access  Public
 router.post(
   "/confirmation/resend",
@@ -225,7 +225,7 @@ router.post(
             `Hello ${user.email}` +
             "Please confirm account creation by clicking the link: \nhttp://" +
             req.headers.host +
-            "/api/users/confirmation/" +
+            "/confirmation/" +
             confirmation.token
         };
         transporter.sendMail(mailOptions, err => {
