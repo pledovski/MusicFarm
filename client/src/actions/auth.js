@@ -1,28 +1,27 @@
-import axios from 'axios'
-import { setAlert } from './alert'
-import { 
-  REGISTER_SUCCESS, 
+import axios from "axios";
+import { setAlert } from "./alert";
+import {
+  REGISTER_SUCCESS,
+  REGISTER_UNCONFIRMED,
   REGISTER_FAIL,
-  USER_LOADED, 
-  AUTH_ERROR, 
-  LOGIN_SUCCESS, 
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_PROFILE
-} from './types'
+} from "./types";
 
-import setAuthToken from '../utils/setAuthToken'
-// import { isRegExp } from 'util';
+import setAuthToken from "../utils/setAuthToken";
 
 // Load user
 export const loadUser = () => async dispatch => {
-
-  if(localStorage.token) {
+  if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   try {
-    const res = await axios.get('/api/auth');
+    const res = await axios.get("/api/auth");
 
     dispatch({
       type: USER_LOADED,
@@ -35,32 +34,34 @@ export const loadUser = () => async dispatch => {
   }
 };
 
-
 // Register user
 export const register = ({ email, password }) => async dispatch => {
   dispatch({ type: CLEAR_PROFILE });
-  
+
   const config = {
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     }
-  }
+  };
 
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post('/api/users', body, config);
+    const res = await axios.post("/api/users", body, config);
 
     dispatch({
-      type: REGISTER_SUCCESS,
+      type: REGISTER_UNCONFIRMED,
       payload: res.data
     });
-    dispatch(loadUser());
+
+    dispatch(
+      setAlert(`A confirmation email has been sent to ${email}`, "success")
+    );
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
     dispatch({
       type: REGISTER_FAIL
@@ -68,19 +69,50 @@ export const register = ({ email, password }) => async dispatch => {
   }
 };
 
+// Resend confirmation link
+export const resend = ({ email }) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({ email });
+
+  try {
+    const res = await axios.post(
+      "/api/users/confirmation/resend",
+      body,
+      config
+    );
+
+    dispatch({ type: REGISTER_UNCONFIRMED, payload: res.data });
+    dispatch(
+      setAlert(`A confirmation email has been sent to ${email}`, "success")
+    );
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
+
+  dispatch({ type: REGISTER_UNCONFIRMED });
+};
 
 // Login user
 export const login = (email, password) => async dispatch => {
   const config = {
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     }
-  }
+  };
 
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post('/api/auth', body, config);
+    const res = await axios.post("/api/auth", body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,
@@ -92,7 +124,7 @@ export const login = (email, password) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
     dispatch({
       type: LOGIN_FAIL
@@ -104,4 +136,4 @@ export const login = (email, password) => async dispatch => {
 export const logout = () => dispatch => {
   dispatch({ type: LOGOUT });
   dispatch({ type: CLEAR_PROFILE });
-}
+};
