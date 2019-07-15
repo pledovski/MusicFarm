@@ -37,7 +37,7 @@ const Register = ({
     if (!email) {
       setAlert("Please fill in the Email field", "danger");
     } else {
-      resend({ email });
+      resend(email);
     }
   };
 
