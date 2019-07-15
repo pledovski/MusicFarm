@@ -1,11 +1,15 @@
 const express = require("express");
-const connectDB = require("./config/db");
+const connectUserDB = require("./config/db.js");
+const connectFilesDB = require("./config/filesDB.js");
 const path = require("path");
 
 const app = express();
 
-// Connect DataBase
-connectDB();
+// Connect User DataBase
+connectUserDB();
+
+// Connect Files DataBase
+// connectFilesDB();
 
 // Init Middleware
 app.use(express.json({ extended: false }));

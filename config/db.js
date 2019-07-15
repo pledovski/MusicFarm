@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const db = config.get('mongoURI');
 
-const connectDB = async () => {
+const connectUserDB = async () => {
   try {
     await mongoose.connect(db, {
       useNewUrlParser: true,
@@ -18,4 +18,4 @@ const connectDB = async () => {
   }
 }
 
-module.exports = connectDB;
+module.exports = connectUserDB;
