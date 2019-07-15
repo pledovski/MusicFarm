@@ -137,15 +137,24 @@ router.get("/:token", async (req, res) => {
     });
 
   // If a token found, find a matching user
-  let user = await User.findOne({ _id: token.user }).select("-password");
+  const user = await User.findById({ _id: token.user }).select("-password");
 
   if (!user)
-    return res
-      .status(400)
-      .send({ msg: "We were unable to find a user for this token." });
+    return res.status(400).json({
+      errors: [
+        {
+          msg: "We were unable to find a user for this token."
+        }
+      ]
+    });
   if (user.isConfirmed)
-    return res.status(400).send({
-      msg: "This user has already been confirmed."
+    return res.status(400).json({
+      // user,
+      errors: [
+        {
+          msg: "Looks your account has already been confirmed. Try to login."
+        }
+      ]
     });
 
   // Confirm and save the user
@@ -160,7 +169,8 @@ router.get("/:token", async (req, res) => {
         ]
       });
     }
-    res.status(200).json({ user });
+    console.log(user);
+    res.status(200).json(user);
   });
 });
 
@@ -180,7 +190,7 @@ router.post(
 
     try {
       // See if a user exists
-      let user = await User.findOne({ email });
+      const user = await User.findOne({ email }).select("-password");
 
       if (!user) {
         return res
@@ -189,8 +199,15 @@ router.post(
       }
 
       if (user.isConfirmed)
-        return res.status(400).send({
-          msg: "This account has already been confirmed. Please log in."
+        return res.status(400).json({
+          user: {
+            isConfirmed: user.isConfirmed
+          },
+          errors: [
+            {
+              msg: "This account has already been confirmed. Please log in."
+            }
+          ]
         });
 
       // Create a confirmation token, save it, and send email
@@ -233,6 +250,9 @@ router.post(
             return res.status(500).json({ errors: [{ msg: err.message }] });
           }
           res.status(200).json({
+            user: {
+              isConfirmed: user.isConfirmed
+            },
             alert: [
               {
                 msg: "A confirmation email has been sent to " + user.email

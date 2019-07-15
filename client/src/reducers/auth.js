@@ -35,7 +35,6 @@ export default function(state = initialState, action) {
         ...state,
         ...payload,
         isAuthenticated: false,
-        isConfirmed: true,
         loading: false
       };
     case USER_LOADED:
