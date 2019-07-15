@@ -70,7 +70,7 @@ export const register = ({ email, password }) => async dispatch => {
 };
 
 // Resend confirmation link
-export const resend = ( email ) => async dispatch => {
+export const resend = email => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -151,13 +151,14 @@ export const login = (email, password) => async dispatch => {
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
+    // const isConfirmed = err.response.data.user;
 
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      dispatch({
+        type: REGISTER_UNCONFIRMED
+      });
     }
-    dispatch({
-      type: LOGIN_FAIL
-    });
   }
 };
 

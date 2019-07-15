@@ -36,7 +36,11 @@ const Profile = ({
             )}
           <div className="profile-grid my-1">
             <ProfileTop profile={profile} />
-            <ProfileAbout profile={profile} />
+            {profile.bio ? (
+              <ProfileAbout profile={profile} />
+            ) : (
+              <Fragment />
+            )}
             <div className="profile-exp bg-white p-2">
               <h2 className="text-primary">Releases</h2>
               {profile.release.length > 0 ? (

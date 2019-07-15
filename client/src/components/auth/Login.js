@@ -2,9 +2,10 @@ import React, { Fragment, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { login } from "../../actions/auth";
+import { setAlert } from "../../actions/alert";
+import { login, resend } from "../../actions/auth";
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ login, isConfirmed, resend, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -18,6 +19,15 @@ const Login = ({ login, isAuthenticated }) => {
   const onSubmit = async e => {
     e.preventDefault();
     login(email, password);
+  };
+
+  const onClick = async e => {
+    e.preventDefault();
+    if (!email) {
+      setAlert("Please fill in the Email field", "danger");
+    } else {
+      resend(email);
+    }
   };
 
   // Redirect if logged in
@@ -54,6 +64,12 @@ const Login = ({ login, isAuthenticated }) => {
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Login" />
+        {!isConfirmed && isConfirmed !== null && (
+          <Link onClick={e => onClick(e)} email={email} to="#!">
+            {" "}
+            Resend
+          </Link>
+        )}
       </form>
       <p className="my-1">
         Don't have an account? <Link to="/register">Sign Up</Link>
@@ -64,14 +80,17 @@ const Login = ({ login, isAuthenticated }) => {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  isConfirmed: PropTypes.bool,
+  resend: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  isConfirmed: state.auth.isConfirmed
 });
 
 export default connect(
   mapStateToProps,
-  { login }
+  { login, setAlert, resend }
 )(Login);
