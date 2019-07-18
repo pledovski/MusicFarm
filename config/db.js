@@ -10,7 +10,7 @@ const connectUserDB = async () => {
       useFindAndModify: false
     } );
 
-    console.log('MongoDB for users Connected...');
+    console.log('MongoDB-userBase Connected...');
   } catch(err) {
     console.log(err.message);
     // Exit process with failure

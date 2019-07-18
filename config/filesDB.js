@@ -5,8 +5,6 @@ const path = require('path');
 const crypto = require('crypto');
 
 // File upload
-const multer = require("multer");
-const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 
 // Create mongo connection
@@ -24,7 +22,7 @@ const connectFilesDB = async () => {
       gfs.collection("uploads");
     });
 
-    console.log('MongoDB for files Connected...');
+    console.log('MongoDB-fileBase Connected...');
   } catch (err) {
     console.log(err.message);
     // Exit process with failure
