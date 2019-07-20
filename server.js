@@ -23,7 +23,7 @@ app.use("/api/users/confirmation", require("./routes/api/users"));
 app.use("/api/users/confirmation/resend", require("./routes/api/users"));
 app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/posts", require("./routes/api/posts"));
-app.use("/api/uploads", require("./routes/api/uploads"));
+app.use("/api/releases", require("./routes/api/releases"));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {

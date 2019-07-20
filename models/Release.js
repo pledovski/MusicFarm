@@ -6,6 +6,11 @@ const ReleaseSchema = new mongoose.Schema({
     required: true,
     ref: "user"
   },
+  // profile: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "profile"
+  // },
   artist: {
     type: String,
     required: false
@@ -37,7 +42,7 @@ const ReleaseSchema = new mongoose.Schema({
     type: String
   },
   artWork: {},
-  records: {}
+  records: []
 });
 
 module.exports = Release = mongoose.model('release', ReleaseSchema);

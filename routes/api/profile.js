@@ -110,7 +110,9 @@ router.post(
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().sort({ date: -1 }).populate("user", ["name", "avatar"]);
+    const profiles = await Profile.find()
+      .sort({ date: -1 })
+      .populate("user", ["name", "avatar"]);
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -145,187 +147,13 @@ router.get("/user/:user_id", async (req, res) => {
 router.delete("/", auth, async (req, res) => {
   try {
     // Remove user posts
-    await Post.deleteMany({ user: req.user.id })
+    await Post.deleteMany({ user: req.user.id });
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove user
     await User.findOneAndRemove({ _id: req.user.id });
 
     res.json({ msg: "User deleted" });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
-
-// @route   PUT api/profile/release
-// @desc    Add release
-// @access  Private
-router.put(
-  "/release",
-  [
-    auth,
-    [
-      check("artist", "Artist name is required")
-        .not()
-        .isEmpty(),
-      check("title", "Title is required")
-        .not()
-        .isEmpty(),
-      check("label", "Label is required")
-        .not()
-        .isEmpty()
-    ]
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const {
-      artist,
-      title,
-      label,
-      format,
-      country,
-      releaseDate,
-      uploadDate,
-      style,
-      description,
-      recordLink,
-      artwork,
-      records
-    } = req.body;
-
-    const newRelease = {
-      artist,
-      title,
-      label,
-      format,
-      country,
-      releaseDate,
-      uploadDate,
-      style,
-      description,
-      recordLink,
-      artwork,
-      records
-    };
-
-    try {
-      const profile = await Profile.findOne({ user: req.user.id });
-
-      profile.release.unshift(newRelease);
-
-      await profile.save();
-
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
-  }
-);
-
-// @route   PUT api/profile/release/:release_id
-// @desc    Update release
-// @access  Private
-router.put(
-  "/release/:release_id",
-  [
-    auth,
-    [
-      check("artist", "Artist is required")
-        .not()
-        .isEmpty(),
-      check("title", "Title is required")
-        .not()
-        .isEmpty(),
-      check("label", "Label is required")
-        .not()
-        .isEmpty()
-    ]
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const {
-      artist,
-      title,
-      label,
-      format,
-      country,
-      releaseDate,
-      uploadDate,
-      style,
-      description,
-      recordLink,
-      artwork,
-      records
-    } = req.body;
-
-    const updatedRelease = {
-      artist,
-      title,
-      label,
-      format,
-      country,
-      releaseDate,
-      uploadDate,
-      style,
-      description,
-      recordLink,
-      artwork,
-      records
-    };
-
-    try {
-      const profile = await Profile.findOne({ user: req.user.id });
-
-      const updateIndex = profile.release
-        .map(item => item.id)
-        .indexOf(req.params.release_id);
-
-      if (updateIndex < 0) {
-        return res.status(400).send("Release does not found");
-      }
-
-      profile.release.splice(updateIndex, 1, updatedRelease);
-
-      await profile.save();
-
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
-  }
-);
-
-// @route   DELETE api/profile/release/:release_id
-// @desc    Delete release
-// @access  Private
-router.delete("/release/:release_id", auth, async (req, res) => {
-  try {
-    const profile = await Profile.findOne({ user: req.user.id });
-
-    const removeIndex = profile.release
-      .map(item => item.id)
-      .indexOf(req.params.release_id);
-
-    if (removeIndex < 0) {
-      return res.status(400).send("Release does not found");
-    }
-
-    profile.release.splice(removeIndex, 1);
-
-    await profile.save();
-
-    res.json(profile);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
