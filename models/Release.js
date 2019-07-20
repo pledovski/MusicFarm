@@ -42,7 +42,24 @@ const ReleaseSchema = new mongoose.Schema({
     type: String
   },
   artWork: {},
-  records: []
+  records: [
+    {
+      artist: {
+        type: String,
+        required: false
+      },
+      title: {
+        type: String,
+        required: false
+      },
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "user"
+      },
+      file: {}
+    }
+  ]
 });
 
-module.exports = Release = mongoose.model('release', ReleaseSchema);
+module.exports = Release = mongoose.model("release", ReleaseSchema);

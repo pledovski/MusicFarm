@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const config = require("config");
 const mongoURI = config.get("mongoURI");
-const path = require('path');
-const crypto = require('crypto');
 
 // File upload
 const Grid = require("gridfs-stream");

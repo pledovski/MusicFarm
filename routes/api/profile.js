@@ -289,7 +289,7 @@ router.put(
 );
 
 // @route   DELETE api/profile/events/:event_id
-// @desc    Delete release
+// @desc    Delete event
 // @access  Private
 router.delete("/events/:event_id", auth, async (req, res) => {
   try {

@@ -253,10 +253,9 @@ router.post(
       const fileId = await req.file.id;
       const release = await Release.findById(req.params.release_id);
 
-      if(!release) {
+      if (!release) {
         return res.status(401).json({ msg: "Release not found" });
       }
-
 
       if (release.user.toString() !== req.user.id) {
         return res.status(401).json({ msg: "User not authorized" });
@@ -281,6 +280,44 @@ router.post(
     }
   }
 );
+
+// @route   DELETE api/releases/record/:id/:record_id
+// @desc    Delete a record
+// @access  Private
+router.delete('/record/:release_id/:record_id', auth, async (req, res) => {
+  try {
+    const release = await Release.findById(req.params.release_id);
+
+    // Pull out record
+    const record = release.records.find(
+      record => record.id === req.params.record_id
+    );
+
+    // Make sure record exists
+    if (!record) {
+      return res.status(404).json({ msg: 'Record does not exist' });
+    }
+
+    // Check user
+    if (record.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    // Get remove index
+    const removeIndex = release.records
+      .map(record => record.id)
+      .indexOf(req.params.record_id);
+
+    release.records.splice(removeIndex, 1);
+
+    await release.save();
+
+    res.json(release.records);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route   GET api/releases/:release_id/records
 // @desc    Get all records
