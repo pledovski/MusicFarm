@@ -115,12 +115,33 @@ router.get("/", async (req, res) => {
   }
 });
 
-// @route   GET api/posts/:id
-// @desc    Get post by ID
+// @route   GET api/releases/user/:user_id/
+// @desc    Get all releases by user ID
 // @access  Public
-router.get("/:id", async (req, res) => {
+router.get("/user/:user_id", async (req, res) => {
   try {
-    const release = await Release.findById(req.params.id);
+    const releases = await Release.find({ user: req.params.user_id }).sort({ date: -1 });
+
+    if (!releases) {
+      return res.status(404).json({ msg: "No releases for this artist" });
+    }
+
+    res.json(releases);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Release not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route   GET api/releases/:release_id
+// @desc    Get release by ID
+// @access  Public
+router.get("/:release_id", async (req, res) => {
+  try {
+    const release = await Release.findById(req.params.release_id);
     if (!release) {
       return res.status(404).json({ msg: "Release not found" });
     }
@@ -284,7 +305,7 @@ router.post(
 // @route   DELETE api/releases/record/:id/:record_id
 // @desc    Delete a record
 // @access  Private
-router.delete('/record/:release_id/:record_id', auth, async (req, res) => {
+router.delete("/record/:release_id/:record_id", auth, async (req, res) => {
   try {
     const release = await Release.findById(req.params.release_id);
 
@@ -295,12 +316,12 @@ router.delete('/record/:release_id/:record_id', auth, async (req, res) => {
 
     // Make sure record exists
     if (!record) {
-      return res.status(404).json({ msg: 'Record does not exist' });
+      return res.status(404).json({ msg: "Record does not exist" });
     }
 
     // Check user
     if (record.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized' });
+      return res.status(401).json({ msg: "User not authorized" });
     }
 
     // Get remove index
@@ -315,17 +336,7 @@ router.delete('/record/:release_id/:record_id', auth, async (req, res) => {
     res.json(release.records);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
-
-// @route   GET api/releases/:release_id/records
-// @desc    Get all records
-// @access  Private
-router.get("/", (req, res) => {});
-
-// @route   GET api/uploads/:id
-// @desc    Get record by ID
-// @access  Private
-router.get("/:id", (req, res) => {});
 module.exports = router;

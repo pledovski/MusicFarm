@@ -24,65 +24,6 @@ const ProfileSchema = new mongoose.Schema({
   about: {
     bio: String
   },
-  release: [
-    {
-      // LEGACY - required: true doesnt work
-      artist: {
-        type: String,
-        required: false
-      },
-      title: {
-        type: String,
-        required: true
-      },
-      label: {
-        type: String,
-        required: true
-      },
-      format: {
-        type: String,
-        required: false
-      },
-      country: {
-        type: String
-      },
-      releaseDate: {
-        type: Date,
-        required: false
-      },
-      uploadDate: {
-        type: Date,
-        default: Date.now
-      },
-      style: {
-        type: String
-      },
-      description: {
-        type: String
-      },
-      recordLink: {
-        type: String
-        // LEGACY - change to required: true after a media server implementation
-      },
-      artwork: {
-        type: String
-      },
-      records: [
-        {
-          artist: {
-            type: String,
-            required: false
-          },
-          title: {
-            type: String,
-            required: false
-          },
-          lenght: String
-          // LEGACY - change to required: true after a media server implementation
-        }
-      ]
-    }
-  ],
   events: [
     {
       title: {

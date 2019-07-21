@@ -22,3 +22,6 @@ export const DELETE_POST = 'DELETE_POST';
 export const ADD_POST = 'ADD_POST';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const GET_RELEASE = 'GET_RELEASE';
+export const GET_RELEASES = 'GET_RELEASES';
+export const RELEASE_ERROR = 'RELEASE_ERROR';

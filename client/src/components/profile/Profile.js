@@ -7,16 +7,21 @@ import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
 import ProfileReleases from "./ProfileReleases";
 import { getProfileById } from "../../actions/profile";
+import { getUserReleases } from "../../actions/release";
+
 
 const Profile = ({
   getProfileById,
   profile: { profile, loading },
+  getUserReleases,
+  release: { releases },
   auth,
   match
 }) => {
   useEffect(() => {
     getProfileById(match.params.id);
-  }, [getProfileById, match.params.id]);
+    getUserReleases(match.params.id);
+  }, [getProfileById, getUserReleases, match.params.id]);
 
   return (
     <Fragment>
@@ -43,9 +48,9 @@ const Profile = ({
             )}
             <div className="profile-exp bg-white p-2">
               <h2 className="text-primary">Releases</h2>
-              {profile.release.length > 0 ? (
+              {releases.length > 0 && releases !== null ? (
                 <Fragment>
-                  {profile.release.map(release => (
+                  {releases.map(release => (
                     <ProfileReleases key={release._id} release={release} />
                   ))}
                 </Fragment>
@@ -63,15 +68,17 @@ const Profile = ({
 Profile.propTypes = {
   getProfileById: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  release: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  auth: state.auth
+  auth: state.auth,
+  release: state.release
 });
 
 export default connect(
   mapStateToProps,
-  { getProfileById }
+  { getProfileById, getUserReleases }
 )(Profile);

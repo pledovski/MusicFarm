@@ -25,13 +25,15 @@ const Routes = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/profiles" component={Profiles} />
         <Route exact path="/profile/:id" component={Profile} />
+        {/* <Route exact path="/releases/" component={Releases} /> */}
+        {/* <Route exact path="/releases/:id" component={Release} /> */}
         <Route exact path="/posts" component={Posts} />
         <Route exact path="/posts/:id" component={Post} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/create-profile" component={CreateProfile} />
         <PrivateRoute exact path="/edit-profile" component={EditProfile} />
         <PrivateRoute exact path="/add-release" component={AddRelease} />
-        {/* <Route component={NotFound} /> */}
+        <Route component={NotFound} />
       </Switch>
     </section>
   );

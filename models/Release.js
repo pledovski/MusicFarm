@@ -57,7 +57,83 @@ const ReleaseSchema = new mongoose.Schema({
         required: true,
         ref: "user"
       },
-      file: {}
+      file: {},
+      likes: [
+        {
+          user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users'
+          },
+          // profile: {
+          //   type: mongoose.Schema.Types.ObjectId,
+          //   ref: 'profiles'
+          // }
+        }
+      ],
+      comments: [
+        {
+          user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users'
+          },
+          // profile: {
+          //   type: mongoose.Schema.Types.ObjectId,
+          //   ref: 'profiles'
+          // },
+          text: {
+            type: String,
+            required: true
+          },
+          name: {
+            type: String
+          },
+          avatar: {
+            type: String
+          },
+          date: {
+            type: Date,
+            default: Date.now
+          }
+        }
+      ]
+    }
+  ],
+  likes: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
+      },
+      // profile: {
+      //   type: mongoose.Schema.Types.ObjectId,
+      //   ref: 'profiles'
+      // }
+    }
+  ],
+  comments: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
+      },
+      // profile: {
+      //   type: mongoose.Schema.Types.ObjectId,
+      //   ref: 'profiles'
+      // },
+      text: {
+        type: String,
+        required: true
+      },
+      name: {
+        type: String
+      },
+      avatar: {
+        type: String
+      },
+      date: {
+        type: Date,
+        default: Date.now
+      }
     }
   ]
 });
