@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import Moment from "react-moment";
 
 const ProfileReleases = ({
@@ -14,37 +15,31 @@ const ProfileReleases = ({
     style,
     description
   }
-}) => 
-  <div>
-    <h3>{artist}</h3>
-    <p>
-      Relased:{' '}
-      <Moment format="DD/MM/YYYY">{releaseDate}</Moment>
-    </p>
-    <p>
-      Uploaded:{' '}
-      <Moment format="DD/MM/YYYY">{uploadDate}</Moment>
-    </p>
-    <p>
-      <strong>{title}</strong>
-    </p>
-    <h4>
-      {label}
-    </h4>
-    <p>
-      {format}
-    </p>
-    <p>
-      {format}
-    </p>
-    <p>
-      {format}
-    </p>
-    <p>
-      <strong>{format}</strong>
-    </p>
-  </div>;
-
+}) => (
+  <Fragment>
+    <div>
+      <h3>{artist}</h3>
+      <p>
+        <Link>
+          <strong>{title}</strong>
+        </Link>
+      </p>
+      <p>
+        Relased: <Moment format="DD/MM/YYYY">{releaseDate}</Moment>
+      </p>
+      <p>
+        Uploaded: <Moment format="DD/MM/YYYY">{uploadDate}</Moment>
+      </p>
+      <h4>{label}</h4>
+      <p>{format}</p>
+      <p>{format}</p>
+      <p>{format}</p>
+      <p>
+        <strong>{format}</strong>
+      </p>
+    </div>
+  </Fragment>
+);
 
 ProfileReleases.propTypes = {
   release: PropTypes.object.isRequired

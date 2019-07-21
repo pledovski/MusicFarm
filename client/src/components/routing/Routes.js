@@ -12,6 +12,8 @@ import Profiles from "../profiles/Profiles";
 import Profile from "../profile/Profile";
 import Posts from "../posts/Posts";
 import Post from "../post/Post";
+import AllReleases from "../releases/AllReleases"
+import Release from "../release/Release"
 import NotFound from "../layout/NotFound";
 import PrivateRoute from "../routing/PrivateRoute";
 
@@ -25,8 +27,8 @@ const Routes = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/profiles" component={Profiles} />
         <Route exact path="/profile/:id" component={Profile} />
-        {/* <Route exact path="/releases/" component={Releases} /> */}
-        {/* <Route exact path="/releases/:id" component={Release} /> */}
+        <Route exact path="/releases/" component={AllReleases} />
+        <Route exact path="/releases/:id" component={Release} />
         <Route exact path="/posts" component={Posts} />
         <Route exact path="/posts/:id" component={Post} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />

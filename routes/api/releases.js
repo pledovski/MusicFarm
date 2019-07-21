@@ -120,7 +120,9 @@ router.get("/", async (req, res) => {
 // @access  Public
 router.get("/user/:user_id", async (req, res) => {
   try {
-    const releases = await Release.find({ user: req.params.user_id }).sort({ date: -1 });
+    const releases = await Release.find({ user: req.params.user_id }).sort({
+      date: -1
+    });
 
     if (!releases) {
       return res.status(404).json({ msg: "No releases for this artist" });
@@ -141,7 +143,9 @@ router.get("/user/:user_id", async (req, res) => {
 // @access  Public
 router.get("/:release_id", async (req, res) => {
   try {
-    const release = await Release.findById(req.params.release_id);
+    const release = await Release.findById(req.params.release_id).sort({
+      date: -1
+    });
     if (!release) {
       return res.status(404).json({ msg: "Release not found" });
     }

@@ -20,7 +20,7 @@ export const getReleases = () => async dispatch => {
 };
 
 // Get release
-export const getRelease = id => async dispatch => {
+export const getReleaseById = id => async dispatch => {
   try {
     const res = await axios.get(`/api/releases/${id}`);
 

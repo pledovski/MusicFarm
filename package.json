@@ -34,6 +34,7 @@
     "nodemailer": "^6.2.1",
     "request": "^2.88.0",
     "scrypto": "^1.0.3",
+    "styled-components": "^4.3.2",
     "uuid-token-generator": "^1.0.0"
   },
   "devDependencies": {

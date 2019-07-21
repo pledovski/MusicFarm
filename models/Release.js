@@ -30,7 +30,7 @@ const ReleaseSchema = new mongoose.Schema({
   country: {
     type: String
   },
-  releaseDate: {
+  date: {
     type: Date,
     default: Date.now,
     required: false
