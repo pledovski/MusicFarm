@@ -17,42 +17,35 @@ const Dashboard = ({
     getCurrentProfile();
   }, [getCurrentProfile]);
 
-  // var dashStyle = {
-  //   color: "red",
-  //   fontSize: 60,
-  //   display: "flex",
-  //   justifyContent: "space-around"
-  // };
-
   return loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
-        {/* <h1 style={dashStyle}>
+      {/* <h1 style={dashStyle}>
           <u>The service is under construction!</u>
         </h1> */}
-        <h1 className="large text-primary">My Profile</h1>
-        <p className="lead">
-          <i className=" fas fa-user" /> Welcome {profile && profile.realName}
-        </p>
-        {profile !== null ? (
-          <Fragment>
-            <DashboardActions />
-            <Release release={profile.release}/>
-            <div className="my-2">
-              <button className='btn btn-danger' onClick={() => deleteAccount()}>
-                <i className="fas fa-user-minus"></i> {' '}Delete my account
-              </button>
-            </div>
-          </Fragment>
-        ) : (
-          <Fragment>
-            <p>You have not setup a profile, please add some info.</p>
-            <Link to="/create-profile" className="btn btn-primary my-1">
-              Create profile
-            </Link>
-          </Fragment>
-        )}
+      <h1 className="large text-primary">My Profile</h1>
+      <p className="lead">
+        <i className=" fas fa-user" /> Welcome {profile && profile.realName}
+      </p>
+      {profile !== null ? (
+        <Fragment>
+          <DashboardActions />
+          <Release release={profile.release} />
+          <div className="my-2">
+            <button className="btn btn-danger" onClick={() => deleteAccount()}>
+              <i className="fas fa-user-minus" /> Delete my account
+            </button>
+          </div>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <p>You have not setup a profile, please add some info.</p>
+          <Link to="/create-profile" className="btn btn-primary my-1">
+            Create profile
+          </Link>
+        </Fragment>
+      )}
     </Fragment>
   );
 };

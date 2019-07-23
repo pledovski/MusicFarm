@@ -6,6 +6,11 @@ const RecordSchema = new mongoose.Schema({
     required: true,
     ref: "user"
   },
+  release: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "rlease"
+  },
   artist: {
     type: String,
     required: false

@@ -43,7 +43,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link to="/profiles">Artists</Link>
       </li>
       <li>
-        <Link to="#!">Records</Link>
+        <Link to="/releases">Releases</Link>
       </li>
       <li>
         <Link to="#!">Labels</Link>

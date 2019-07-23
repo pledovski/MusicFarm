@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Record = ({ record: { user, file } }) => {
+const Record = ({ record: { user, file: {
+  filename
+} } }) => {
   return <div>
     <div>{user}</div>
-    <div>{file}</div>
+    <div>{filename}</div>
   </div>;
 };
 

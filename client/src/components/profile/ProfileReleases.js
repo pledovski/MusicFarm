@@ -5,6 +5,7 @@ import Moment from "react-moment";
 
 const ProfileReleases = ({
   release: {
+    _id,
     artist,
     title,
     label,
@@ -20,7 +21,7 @@ const ProfileReleases = ({
     <div>
       <h3>{artist}</h3>
       <p>
-        <Link>
+        <Link to={`/releases/${_id}`}>
           <strong>{title}</strong>
         </Link>
       </p>

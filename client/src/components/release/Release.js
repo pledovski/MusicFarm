@@ -11,7 +11,7 @@ const Release = ({ getReleaseById, release: { release, loading }, match }) => {
   useEffect(() => {
     getReleaseById(match.params.id);
   }, [getReleaseById, match.params.id]);
-  return loading ? (
+  return loading || release == null ? (
     <Spinner />
   ) : (
     <Fragment>
