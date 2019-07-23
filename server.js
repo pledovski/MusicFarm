@@ -1,24 +1,14 @@
 const express = require("express");
 const connectUserDB = require("./config/db.js");
-const { connectFilesDB } = require("./config/filesDB.js");
-// const connectMediaDB = require("./config/multimedia");
 const path = require("path");
 
 const app = express();
 
-// Connect Multimedia DataBase
-// connectMediaDB();
-
 // Connect User DataBase
 connectUserDB();
 
-// Connect Files DataBase
-// connectFilesDB();
-
 // Init Middleware
 app.use(express.json({ extended: false }));
-
-// app.get('/', (req, res) => res.send('API running'));
 
 // Define Routes
 app.use("/api/users", require("./routes/api/users"));
@@ -27,7 +17,6 @@ app.use("/api/users/confirmation", require("./routes/api/users"));
 app.use("/api/users/confirmation/resend", require("./routes/api/users"));
 app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/posts", require("./routes/api/posts"));
-// app.use("/api/removed-route", require("./routes/api/releases"));
 app.use("/api/releases", require("./routes/api/audio"));
 
 // Serve static assets in production

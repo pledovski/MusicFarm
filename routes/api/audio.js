@@ -438,48 +438,4 @@ router.delete("/record/:release_id/:record_id", auth, async (req, res) => {
   }
 });
 
-//-------------------------------------------------------  DELETE CANDIDATE
-
-// // @route GET /files
-// // @desc  Display all files in JSON
-// router.get("/uploads", (req, res) => {
-//   gfs.files.find().toArray((err, files) => {
-//     // Check if files
-//     if (!files || files.length === 0) {
-//       return res.status(404).json({
-//         err: "No files exist"
-//       });
-//     }
-
-//     // Files exist
-//     return res.json(files);
-//   });
-// });
-
-// // @route GET /files/:filename
-// // @desc  Get single file object
-// router.get("/uploads/:filename", async (req, res) => {
-//   await gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-//     // Check if file
-//     if (!file || file.length === 0) {
-//       return res.status(404).json({
-//         err: "No file exists"
-//       });
-//     }
-//     // File exists
-//     return res.json(file);
-//   });
-// });
-
-// // @route DELETE /files/:id
-// // @desc  Delete file
-// router.delete("/uploads/:id", (req, res) => {
-//   gfs.remove({ _id: req.params.id, root: "uploads" }, (err, GridFSBucket) => {
-//     if (err) {
-//       return res.status(404).json({ err: err });
-//     }
-//     res.json({ message: "File deleted" });
-//   });
-// });
-
 module.exports = router;
