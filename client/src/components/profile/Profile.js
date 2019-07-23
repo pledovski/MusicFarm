@@ -1,14 +1,20 @@
 import React, { Fragment, useEffect } from "react";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
-import ProfileReleases from "./ProfileReleases";
+import ReleaseListItem from "../dashboard/ReleaseListItem";
 import { getProfileById } from "../../actions/profile";
 import { getUserReleases } from "../../actions/release";
 
+export const AllReleasesStyled = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 15px;
+`;
 
 const Profile = ({
   getProfileById,
@@ -41,18 +47,16 @@ const Profile = ({
             )}
           <div className="profile-grid my-1">
             <ProfileTop profile={profile} />
-            {profile.bio ? (
-              <ProfileAbout profile={profile} />
-            ) : (
-              <Fragment />
-            )}
+            {profile.bio ? <ProfileAbout profile={profile} /> : <Fragment />}
             <div className="profile-exp bg-white p-2">
               <h2 className="text-primary">Releases</h2>
               {releases.length > 0 && releases !== null ? (
                 <Fragment>
-                  {releases.map(release => (
-                    <ProfileReleases key={release._id} release={release} />
-                  ))}
+                  <AllReleasesStyled>
+                    {releases.map(release => (
+                      <ReleaseListItem key={release._id} release={release} />
+                    ))}
+                  </AllReleasesStyled>
                 </Fragment>
               ) : (
                 <h4>No releases</h4>

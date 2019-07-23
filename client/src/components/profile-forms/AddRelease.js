@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addRelease } from "../../actions/profile";
+import { addRelease } from "../../actions/release";
 
 const AddRelease = ({ addRelease, history }) => {
   const [formData, setFormData] = useState({
