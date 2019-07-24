@@ -353,6 +353,7 @@ router.post(
 // @desc Stream file
 // @access  Public
 router.get("/play/:filename", async (req, res) => {
+  console.log('TRIGGERED!')
   try {
     await gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
       // Check if file

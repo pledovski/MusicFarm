@@ -74,8 +74,6 @@ export const getUserReleases = id => async dispatch => {
   try {
     const res = await axios.get(`/api/releases/user/${id}`);
 
-    console.log(res.data);
-
     dispatch({
       type: GET_RELEASES,
       payload: res.data

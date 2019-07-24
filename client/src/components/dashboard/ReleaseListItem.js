@@ -63,7 +63,7 @@ const Description = styled.p`
   font-weight: 400;
 `;
 
-const Actions = styled.button`
+const Action = styled.button`
   width: 75px;
   height: 75px;
   border-radius: 5px;
@@ -97,7 +97,7 @@ const ReleaseListItem = ({
             <Description>{records.length} records</Description>
           </SecondaryInfo>
         </Info>
-        <Actions />
+        <Action />
       </Container>
     </Link>
   );
