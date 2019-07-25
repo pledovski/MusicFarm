@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from "@material-ui/styles";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth";
 
 // Pages
 import Home from "./components/home/Home";
@@ -36,13 +38,14 @@ const theme = createMuiTheme({
   }
 });
 
-// import setAuthToken from "./utils/setAuthToken";
-
-// if (localStorage.token) {
-//   setAuthToken(localStorage.token);
-// }
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, [loadUser]);
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>

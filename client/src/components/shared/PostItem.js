@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
-import Moment from "react-moment";
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime';
 
