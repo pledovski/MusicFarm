@@ -29,10 +29,12 @@ router.post(
     try {
       const user = await User.findById(req.user.id).select("-password");
 
+      console.log(user);
+
       const newPost = new Post({
         text: req.body.text,
-        name: user.name,
-        avatar: user.avatar,
+        name: user.profile.realName,
+        avatar: user.profile.avatar,
         user: req.user.id
       });
 
@@ -188,8 +190,8 @@ router.post(
 
       const newComment = {
         text: req.body.text,
-        name: user.name,
-        avatar: user.avatar,
+        name: user.profile.realName,
+        avatar: user.profile.avatar,
         user: req.user.id
       };
 
@@ -208,7 +210,7 @@ router.post(
 // @route    DELETE api/posts/comment/:id/:comment_id
 // @desc     Delete comment
 // @access   Private
-router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
@@ -219,12 +221,12 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 
     // Make sure comment exists
     if (!comment) {
-      return res.status(404).json({ msg: 'Comment does not exist' });
+      return res.status(404).json({ msg: "Comment does not exist" });
     }
 
     // Check user
     if (comment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized' });
+      return res.status(401).json({ msg: "User not authorized" });
     }
 
     // Get remove index
@@ -239,7 +241,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     res.json(post.comments);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 

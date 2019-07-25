@@ -14,7 +14,7 @@ const TokenSchema = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
-    expireAfterSeconds: 10
+    expireAfterSeconds: 1000
   }
 });
 

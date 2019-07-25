@@ -46,58 +46,70 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    // LEGACY = NO releases
-    const {
-      realName,
-      alias,
-      dob,
-      bornAt,
-      basedAt,
-      about,
-      website,
-      youtube,
-      soundcloud,
-      facebook,
-      instagram
-    } = req.body;
+    // // LEGACY = NO releases
+    // const {
+    //   realName,
+    //   alias,
+    //   dob,
+    //   bornAt,
+    //   basedAt,
+    //   about,
+    //   website,
+    //   youtube,
+    //   soundcloud,
+    //   facebook,
+    //   instagram
+    // } = req.body;
 
-    // Build profile object
-    const profileFields = {};
-    profileFields.user = req.user.id;
-    if (realName) profileFields.realName = realName;
-    if (alias) profileFields.alias = alias;
-    if (dob) profileFields.dob = dob;
-    if (bornAt) profileFields.bornAt = bornAt;
-    if (basedAt) profileFields.basedAt = basedAt;
-    if (about) profileFields.about = about;
+    // // Build profile object
+    // const profileFields = {};
+    // profileFields.user = req.user.id;
+    // if (realName) profileFields.realName = realName;
+    // if (alias) profileFields.alias = alias;
+    // if (dob) profileFields.dob = dob;
+    // if (bornAt) profileFields.bornAt = bornAt;
+    // if (basedAt) profileFields.basedAt = basedAt;
+    // if (about) profileFields.about = about;
 
-    //Build links object
-    profileFields.links = {};
-    if (website) profileFields.links.website = website;
-    if (youtube) profileFields.links.youtube = youtube;
-    if (soundcloud) profileFields.links.soundcloud = soundcloud;
-    if (facebook) profileFields.links.facebook = facebook;
-    if (instagram) profileFields.links.instagram = instagram;
+    // //Build links object
+    // profileFields.links = {};
+    // if (website) profileFields.links.website = website;
+    // if (youtube) profileFields.links.youtube = youtube;
+    // if (soundcloud) profileFields.links.soundcloud = soundcloud;
+    // if (facebook) profileFields.links.facebook = facebook;
+    // if (instagram) profileFields.links.instagram = instagram;
+
+    const profile = {
+      realName: req.body.realName,
+      alias: req.body.alias,
+      bornAt: req.body.bornAt,
+      basedAt: req.body.basedAt,
+      dob: req.body.dob
+    };
 
     try {
-      let profile = await Profile.findOne({ user: req.user.id });
-
-      if (profile) {
-        //Update
-        profile = await Profile.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: profileFields },
-          { new: true }
-        );
-
-        return res.json(profile);
-      }
+      const user = await User.findById(req.user.id).select("-password");
+      // let profile = await Profile.findOne({ user: req.user.id });
 
       // Create
-      profile = new Profile(profileFields);
+      // userProfile = {profileFields};
 
-      await profile.save();
-      res.json(profile);
+      // // if (user.profile === null) {
+      // //   //Update
+      // //   user.profile = await User.findOneAndUpdate(
+      // //     { user: req.user.id },
+      // //     { $set: profileFields },
+      // //     { new: true }
+      // //   );
+      // //   console.log("TRIGERRED EXISTING PROFILE!");
+      // //   return res.json(user);
+      // // }
+      
+      // user.profile.unshift(profile);
+
+      // await user.save();
+      // console.log(user)
+      return res.json(user);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");

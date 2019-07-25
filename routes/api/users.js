@@ -5,7 +5,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const TokenGenerator = require("uuid-token-generator");
 const nodemailer = require("nodemailer");
-const config = require("config");
+// const config = require("config");
+const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator/check");
 
 const User = require("../../models/User");
@@ -40,12 +41,6 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: "User already exists" }] });
       }
-      // Get users gravatar
-      const avatar = gravatar.url(email, {
-        s: "200",
-        r: "ps",
-        d: "mm"
-      });
 
       user = new User({
         email,
@@ -267,5 +262,38 @@ router.post(
     }
   }
 );
+
+// @route   POST api/profile
+// @desc    Create or update user profile
+// @access  Private
+router.post("/profile", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+
+    // Get users gravatar
+    const avatar = gravatar.url(user.email, {
+      s: "200",
+      r: "ps",
+      d: "mm"
+    });
+
+    const profileFields = {
+      realName: req.body.realName,
+      avatar,
+      alias: req.body.alias,
+      bornAt: req.body.bornAt,
+      basedAt: req.body.basedAt,
+      dob: req.body.dob
+    };
+    user.profile = profileFields;
+
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;
