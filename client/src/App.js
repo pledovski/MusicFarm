@@ -5,11 +5,12 @@ import { ThemeProvider } from "@material-ui/styles";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
+import Alert from "../src/components/shared/Alert";
 
 // Pages
 import Home from "./components/home/Home";
 import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
+import Register from "./components/auth/Register";
 
 // Components
 import Navbar from "./components/layout/Navbar";
@@ -53,10 +54,11 @@ const App = () => {
           <Router>
             <Navbar />
             <div className="container">
+              <Alert />
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
+                <Route exact path="/signup" component={Register} />
               </Switch>
             </div>
           </Router>

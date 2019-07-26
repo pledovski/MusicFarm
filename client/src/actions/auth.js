@@ -49,6 +49,8 @@ export const register = ({ email, password }) => async dispatch => {
   try {
     const res = await axios.post("/api/users", body, config);
 
+    console.log(res.data)
+
     dispatch({
       type: REGISTER_UNCONFIRMED,
       payload: res.data
