@@ -32,7 +32,7 @@
     "mongoose": "^5.5.8",
     "multer": "^1.4.1",
     "multer-gridfs-storage": "^3.3.0",
-    "nodemailer": "^6.2.1",
+    "nodemailer": "^6.4.16",
     "request": "^2.88.0",
     "scrypto": "^1.0.3",
     "styled-components": "^4.3.2",
